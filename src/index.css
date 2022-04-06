@@ -6,6 +6,12 @@ body {
     background-color: #EEEEEE;
 }
 
+#products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .product {
     background-color: #ffff;
     width: 310px;
@@ -16,6 +22,8 @@ body {
 
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+    margin: 12px;
 }
 
 .product-name {
@@ -25,7 +33,7 @@ body {
 
     display: flex;
     justify-content: center;
-    align-cont: center;
+    align-content: center;
 
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -58,4 +66,22 @@ body {
 
 .product-details-discount {
     display: flex;
+    align-items: center;
+}
+
+#price {
+    font-size: 16px;
+    color: gray;
+    text-decoration: line-through;
+    padding-right: 5px;
+}
+
+#new_price {
+    font-size: 24px;
+    font-weight: 600;
+}
+#discount {
+    font-size: 14px;
+    font-weight: 600;
+    color: green;
 }
