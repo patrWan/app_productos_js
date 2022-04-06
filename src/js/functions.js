@@ -2,6 +2,7 @@ $(function () {
     fetch('http://localhost:3000/api/product')
         .then(response => response.json())
         .then(data => {
+            console.log(data.length);
             data.map(product => {
                 let apply_discount = product.price - (product.price * product.discount / 100);
                 $("#products").append(
@@ -30,6 +31,10 @@ $(function () {
         });
 });
 
-$(document).on("click", "#click", function () {
-    $("#txt_nombres").text('hola');
+$(document).on("click", "#page_number", function () {
+});
+
+
+$('a').click(function(){
+    alert($(this).text());
 });
