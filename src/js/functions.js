@@ -1,5 +1,8 @@
+var acutalCategory = 'bebida energetica';
+
 function appendProducts(data) {
-    data.map(product => {
+    var products = data.products;
+    products.map(product => {
         let apply_discount = product.price - (product.price * product.discount / 100);
         $("#products").append(
             `
@@ -25,23 +28,30 @@ function appendProducts(data) {
     });
 }
 
+function appendPages(numberOfPages){
+    console.log(numberOfPages);
+    for(let i = 1; i <= numberOfPages; i++){
+        $("#pagination").append(
+            `
+                <li class="page-item"><a class="page-link" href="#" id="page-link" onClick="changePage(`+i+`)">`+i+`</a></li>
+            `
+        );
+    }
+}
+
 $(function () {
     fetch('http://localhost:3000/api/product')
         .then(response => response.json())
         .then(data => {
-            console.log(data.length);
             appendProducts(data);
+            appendPages(data.numberOfPages);
         });
 });
 
-$(document).on("click", "#page_number", function () {
-});
+function changePage(page){
+    var pageNumber = page;
 
-
-$('a').click(function () {
-    var pageNumber = $(this).text() ? $(this).text() : '1';
-
-    var url = 'http://localhost:3000/api/product/?category=2&page=' + pageNumber + '';
+    var url = 'http://localhost:3000/api/product/?category='+acutalCategory+'&page=' + pageNumber + '';
 
 
     fetch(url)
@@ -49,23 +59,31 @@ $('a').click(function () {
         .then(data => {
             console.log(data.length);
             $("#products").empty();
+            
             appendProducts(data);
+            
         });
+}
+
+$('#pagination > #page-link').click(function () {
+    
 });
 
 $('#nav > #nav-link').click(function () {
-    var category = $(this).text();
+    acutalCategory = $(this).text();
     var pageNumber = 1;
 
-    var url = 'http://localhost:3000/api/product/?category='+category+'&page=' + pageNumber + '';
+    var url = 'http://localhost:3000/api/product/?category='+acutalCategory+'&page=' + pageNumber + '';
 
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data.length);
             $("#products").empty();
+            $("#pagination").empty();
+
             appendProducts(data);
+            appendPages(data.numberOfPages);
         });
 
 
