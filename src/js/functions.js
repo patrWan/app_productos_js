@@ -41,12 +41,32 @@ $(document).on("click", "#page_number", function () {
 $('a').click(function () {
     var pageNumber = $(this).text() ? $(this).text() : '1';
 
-    fetch('http://localhost:3000/api/product', {
-        method 
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.length);
-        appendProducts(data);
-    });
+    var url = 'http://localhost:3000/api/product/?category=2&page=' + pageNumber + '';
+
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.length);
+            $("#products").empty();
+            appendProducts(data);
+        });
+});
+
+$('#nav > #nav-link').click(function () {
+    var category = $(this).text();
+    var pageNumber = 1;
+
+    var url = 'http://localhost:3000/api/product/?category='+category+'&page=' + pageNumber + '';
+
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.length);
+            $("#products").empty();
+            appendProducts(data);
+        });
+
+
 });
