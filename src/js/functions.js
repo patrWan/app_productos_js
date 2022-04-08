@@ -1,4 +1,5 @@
-var acutalCategory = 'bebida energetica';
+var currentCategory = 'bebida energetica';
+var currentPage = 1;
 
 function appendProducts(data) {
     var products = data.products;
@@ -28,52 +29,76 @@ function appendProducts(data) {
     });
 }
 
-function appendPages(numberOfPages){
+function appendPages(numberOfPages) {
     console.log(numberOfPages);
-    for(let i = 1; i <= numberOfPages; i++){
+    for (let i = 1; i <= numberOfPages; i++) {
         $("#pagination").append(
             `
-                <li class="page-item"><a class="page-link" href="#" id="page-link" onClick="changePage(`+i+`)">`+i+`</a></li>
+                <li class="page-item" id="page-item`+ i + `"><a class="page-link" href="#" id="page-link" onClick="changePage(` + i + `)">` + i + `</a></li>
             `
         );
     }
 }
 
-$(function () {
+function fetchProducts() {
     fetch('http://localhost:3000/api/product')
         .then(response => response.json())
         .then(data => {
             appendProducts(data);
             appendPages(data.numberOfPages);
         });
+}
+
+function fetchProductsByName(productName) {
+    fetch('http://localhost:3000/api/product/search?product_name=' + productName + '')
+        .then(response => response.json())
+        .then(data => {
+            $("#products").empty();
+            $("#pagination").empty();
+
+            appendProducts(data);
+        });
+}
+
+$(function () {
+    fetchProducts();
 });
 
-function changePage(page){
-    var pageNumber = page;
+function changePage(page) {
 
-    var url = 'http://localhost:3000/api/product/?category='+acutalCategory+'&page=' + pageNumber + '';
+    var idPageItem = "page-item" + currentPage;
+
+    console.log("currentPage => " + idPageItem);
+    document.getElementById(idPageItem).classList.remove("active");
+
+    currentPage = page;
+
+    var oldIdPageItem = "page-item" + currentPage;
+
+    document.getElementById(oldIdPageItem).classList.add("active");
+
+    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + currentPage + '';
 
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data.length);
             $("#products").empty();
-            
+
             appendProducts(data);
-            
+
         });
 }
 
 $('#pagination > #page-link').click(function () {
-    
+
 });
 
 $('#nav > #nav-link').click(function () {
-    acutalCategory = $(this).text();
+    currentCategory = $(this).text();
     var pageNumber = 1;
 
-    var url = 'http://localhost:3000/api/product/?category='+acutalCategory+'&page=' + pageNumber + '';
+    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + pageNumber + '';
 
 
     fetch(url)
@@ -88,3 +113,30 @@ $('#nav > #nav-link').click(function () {
 
 
 });
+
+/**
+ * Buscador de productos por nombre del producto.
+ */
+$(function () {
+    var input = document.getElementById("searchProduct");
+    
+
+    input.addEventListener("keyup", function (event) {
+        event.preventDefault();
+        var search = input.value;
+        
+        if (event.key === 'Enter') {
+            if (search === "") {
+                $("#products").empty();
+                $("#pagination").empty();
+                fetchProducts();
+            } else {
+                fetchProductsByName(search);
+            }
+
+        }
+
+
+    });
+});
+

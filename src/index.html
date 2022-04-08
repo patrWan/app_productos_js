@@ -20,30 +20,40 @@
             BSALE
         </div>
 
+
+
         <nav class="nav category" id="nav">
-            <a class="nav-link" id="nav-link" aria-current="page" href="#" >bebida energetica</a>
+            <a class="nav-link" id="nav-link" aria-current="page" href="#">bebida energetica</a>
             <a class="nav-link" id="nav-link" href="#">pisco</a>
             <a class="nav-link" id="nav-link" href="#">ron</a>
             <a class="nav-link" id="nav-link" href="#">bebida</a>
             <a class="nav-link" id="nav-link" href="#">snack</a>
             <a class="nav-link" id="nav-link" href="#">cerveza</a>
-            <a class="nav-link">vodka</a>
+            <a class="nav-link" id="nav-link" href="#">vodka</a>
         </nav>
     </header>
 
+
     <div class="container">
-        <h1>Hello, world!</h1>
-            <nav aria-label="Page navigation example " class="paginationMenu" id="">
-                <ul class="pagination" >
-                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                </ul>
-                
-                <ul class="pagination" id="pagination"></ul>
-                
-                <ul class="pagination" >
-                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                </ul>
-            </nav>
+        <div class="search">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Buscar Producto</label>
+                <input type="email" class="form-control" id="searchProduct" aria-describedby="emailHelp" placeholder="Ej: energetica monster verde">
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation example " class="paginationMenu" id="">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+            </ul>
+
+            <ul class="pagination" id="pagination"></ul>
+
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+            </ul>
+        </nav>
+        
         <div id="products"></div>
 
 
