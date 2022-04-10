@@ -1,10 +1,12 @@
 var currentCategory = 'bebida energetica';
 var currentPage = 1;
+var orderByName = 'ASC';
+var search = '';
 
 function appendProducts(data) {
     var products = data.products;
     products.map(product => {
-        let apply_discount = product.price - (product.price * product.discount / 100);
+        //let apply_discount = product.price - (product.price * product.discount / 100);
         $("#products").append(
             `
             <div class="product">
@@ -17,8 +19,7 @@ function appendProducts(data) {
 
                 <div class="product-details">
                     <div class="product-details-discount">
-                        <p id="price">$`+ product.price + ` &nbsp;</p> 
-                        <p id="new_price">$`+ apply_discount + ` &nbsp;</p>
+                        <p id="new_price">$`+ product.price + ` &nbsp;</p>
                         <p id="discount">`+ product.discount + `% descuento</p>
                     </div>
                     <button type="button" class="btn btn-primary">Añadir al carrito</button>
@@ -50,7 +51,7 @@ function fetchProducts() {
 }
 
 function fetchProductsByName(productName) {
-    fetch('http://localhost:3000/api/product/search?product_name=' + productName + '')
+    fetch('http://localhost:3000/api/product/search?product_name=' + productName + '&name=' + orderByName + '')
         .then(response => response.json())
         .then(data => {
             $("#products").empty();
@@ -98,8 +99,13 @@ $('#nav > #nav-link').click(function () {
     currentCategory = $(this).text();
     var pageNumber = 1;
 
-    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + pageNumber + '';
+    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + pageNumber + '&name=' + orderByName + '';
 
+    //limpiar input de busqueda.
+    var input = document.getElementById("searchProduct");
+
+    input.value = '';
+    search = '';
 
     fetch(url)
         .then(response => response.json())
@@ -119,12 +125,12 @@ $('#nav > #nav-link').click(function () {
  */
 $(function () {
     var input = document.getElementById("searchProduct");
-    
+
 
     input.addEventListener("keyup", function (event) {
         event.preventDefault();
-        var search = input.value;
-        
+        search = input.value;
+
         if (event.key === 'Enter') {
             if (search === "") {
                 $("#products").empty();
@@ -139,4 +145,44 @@ $(function () {
 
     });
 });
+
+function fetchByCategory(orderBy) {
+    var pageNumber = 1;
+    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + pageNumber + '&name=' + orderBy + '';
+
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            $("#products").empty();
+            $("#pagination").empty();
+
+            appendProducts(data);
+            appendPages(data.numberOfPages);
+        });
+
+}
+$('#orderBy').change(function () {
+
+    orderByName = $(this).val();
+
+    if (search === '') {
+        fetchByCategory(orderByName);
+
+    } else {
+        fetchProductsByName(search);
+    }
+})
+
+
+function handleMenu() {
+    var state = document.getElementById('menu-container').style.display;
+    alert(state);
+    if (state === 'none') {
+        document.getElementById('menu-container').style.display = 'flex';
+    }else{
+        document.getElementById('menu-container').style.display = 'none';
+    }
+
+}
 
