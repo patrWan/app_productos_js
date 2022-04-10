@@ -42,7 +42,7 @@ function appendPages(numberOfPages) {
 }
 
 function fetchProducts() {
-    fetch('http://localhost:3000/api/product')
+    fetch('https://api-productos-app.vercel.app/api/product')
         .then(response => response.json())
         .then(data => {
             appendProducts(data);
@@ -51,7 +51,7 @@ function fetchProducts() {
 }
 
 function fetchProductsByName(productName) {
-    fetch('http://localhost:3000/api/product/search?product_name=' + productName + '&name=' + orderByName + '')
+    fetch('https://api-productos-app.vercel.app/api/product/search?product_name=' + productName + '&name=' + orderByName + '')
         .then(response => response.json())
         .then(data => {
             $("#products").empty();
@@ -78,7 +78,7 @@ function changePage(page) {
 
     document.getElementById(oldIdPageItem).classList.add("active");
 
-    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + currentPage + '';
+    var url = 'https://api-productos-app.vercel.app/api/product/?category=' + currentCategory + '&page=' + currentPage + '';
 
 
     fetch(url)
@@ -99,7 +99,7 @@ $('#nav > #nav-link').click(function () {
     currentCategory = $(this).text();
     var pageNumber = 1;
 
-    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + pageNumber + '&name=' + orderByName + '';
+    var url = 'https://api-productos-app.vercel.app/api/product/?category=' + currentCategory + '&page=' + pageNumber + '&name=' + orderByName + '';
 
     //limpiar input de busqueda.
     var input = document.getElementById("searchProduct");
