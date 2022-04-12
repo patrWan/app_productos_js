@@ -148,7 +148,7 @@ $(function () {
 
 function fetchByCategory(orderBy) {
     var pageNumber = 1;
-    var url = 'http://localhost:3000/api/product/?category=' + currentCategory + '&page=' + pageNumber + '&name=' + orderBy + '';
+    var url = 'https://api-productos-app.vercel.app/api/product/?category=' + currentCategory + '&page=' + pageNumber + '&name=' + orderBy + '';
 
 
     fetch(url)
@@ -162,6 +162,7 @@ function fetchByCategory(orderBy) {
         });
 
 }
+
 $('#orderBy').change(function () {
 
     orderByName = $(this).val();
@@ -173,7 +174,6 @@ $('#orderBy').change(function () {
         fetchProductsByName(search);
     }
 })
-
 
 function handleMenu() {
     var state = document.getElementById('menu-container').style.display;
